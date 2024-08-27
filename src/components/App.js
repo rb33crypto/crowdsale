@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import { ethers } from 'ethers';
 
-import Navigation from './Navigation.js';  
-import Info from './Info.js';
+import Navigation from './Navigation';  
+import Info from './Info';
+import Loading from './Loading';
+import Progress from './Progress';
 
 import TOKEN_ABI from '../abis/Token.json';
 import CROWDSALE_ABI from '../abis/Crowdsale.json';
@@ -11,7 +13,6 @@ import CROWDSALE_ABI from '../abis/Crowdsale.json';
 import config from '../config.json';
 
 function App() {
-  
   const [provider, setProvider] = useState(null)
   const [crowdsale, setCrowdsale] = useState(null)
   
@@ -25,13 +26,16 @@ function App() {
   const [isLoading, setIsLoading] = useState(true)
 
   const loadBlockchainData = async () => {
+
     //intiate provider
     const provider = new ethers.providers.Web3Provider(window.ethereum)
     setProvider(provider)
 
+    const { chainId } = await provider.getNetwork()
+
     //intiate contracts
-    const token = new ethers.Contract( config[31337].token.address ,TOKEN_ABI, provider)
-    const crowdsale = new ethers.Contract( config[31337].crowdsale.address ,CROWDSALE_ABI, provider)
+    const token = new ethers.Contract( config[chainId].token.address ,TOKEN_ABI, provider)
+    const crowdsale = new ethers.Contract( config[chainId].crowdsale.address ,CROWDSALE_ABI, provider)
     setCrowdsale(crowdsale)
 
     //fetch account
@@ -65,10 +69,15 @@ function App() {
     <Container>
       <Navigation />
 
+      <h1 className='my-4 text-center'>Introducing DAPP Token!</h1>
+
       {isLoading ? (
-        <p className = 'text-center'>loading...</p>
+        <Loading/>
         ) : (
+        <>
         <p className='text-center'><strong>Current Price:</strong> {price} ETH</p>
+        <Progress maxTokens={maxTokens} tokensSold={tokensSold} />
+        </>
         )}
 
       <hr />
