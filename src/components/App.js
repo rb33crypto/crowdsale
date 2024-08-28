@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
-import { ethers } from 'ethers';
+import { ethers } from 'ethers'
 
-import Navigation from './Navigation';  
+import Navigation from './Navigation'; 
+import Buy from './Buy';
+import Progress from './Progress';
 import Info from './Info';
 import Loading from './Loading';
-import Progress from './Progress';
 
-import TOKEN_ABI from '../abis/Token.json';
-import CROWDSALE_ABI from '../abis/Crowdsale.json';
+
+import CROWDSALE_ABI from '../abis/Crowdsale.json'
+import TOKEN_ABI from '../abis/Token.json'
 
 import config from '../config.json';
 
@@ -63,7 +65,7 @@ function App() {
     if (isLoading){
       loadBlockchainData()
     }
-  }, [isLoading]);
+  }, [isLoading])
 
   return(
     <Container>
@@ -75,8 +77,9 @@ function App() {
         <Loading/>
         ) : (
         <>
-        <p className='text-center'><strong>Current Price:</strong> {price} ETH</p>
-        <Progress maxTokens={maxTokens} tokensSold={tokensSold} />
+          <p className='text-center'><strong>Current Price:</strong> {price} ETH</p>
+          <Buy provider={provider} price={price} crowdsale={crowdsale} setIsLoading={setIsLoading} />
+          <Progress maxTokens={maxTokens} tokensSold={tokensSold} />
         </>
         )}
 
@@ -86,7 +89,7 @@ function App() {
         <Info account = {account} accountBalance = {accountBalance}/>
         )}
     </Container>
-    )
+    );
 }
 
 export default App;
