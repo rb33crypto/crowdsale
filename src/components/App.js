@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
-import { ethers } from 'ethers'
+import { ethers } from 'ethers';
 
 import Navigation from './Navigation'; 
 import Buy from './Buy';
@@ -9,8 +9,8 @@ import Info from './Info';
 import Loading from './Loading';
 
 
-import CROWDSALE_ABI from '../abis/Crowdsale.json'
-import TOKEN_ABI from '../abis/Token.json'
+import CROWDSALE_ABI from '../abis/Crowdsale.json';
+import TOKEN_ABI from '../abis/Token.json';
 
 import config from '../config.json';
 
